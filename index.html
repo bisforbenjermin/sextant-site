@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sextant — Built for the day you can't look it up</title>
+<meta name="description" content="A commissioned, numbered object that holds a working mind and the tools it knows how to use. It reads from a library, shows you the page, and needs nothing but sunlight. First edition of ten, made in Oceanside, California.">
+<link rel="canonical" href="https://madebysextant.com/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://madebysextant.com/">
+<meta property="og:title" content="Sextant">
+<meta property="og:description" content="Built for the day you can't look it up. A commissioned, numbered object that holds a working mind and the tools it knows how to use.">
+<meta property="og:image" content="https://madebysextant.com/images/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#ebe8e1" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#141414" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 4 L6 21.3 A20 20 0 0 0 26 21.3 Z' fill='none' stroke='%238c7040' stroke-width='2.5' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preload" href="fonts/libre-caslon-display-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/source-sans-3-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+/* Type is self-hosted: the page loads nothing from anyone else. */
+@font-face{font-family:"Libre Caslon Display";src:url(fonts/libre-caslon-display-latin-400-normal.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Source Sans 3";src:url(fonts/source-sans-3-latin-400-normal.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"Source Sans 3";src:url(fonts/source-sans-3-latin-400-italic.woff2) format("woff2");font-weight:400;font-style:italic;font-display:swap}
+@font-face{font-family:"Source Sans 3";src:url(fonts/source-sans-3-latin-600-normal.woff2) format("woff2");font-weight:600;font-style:normal;font-display:swap}
+@font-face{font-family:"Source Sans 3";src:url(fonts/source-sans-3-latin-600-italic.woff2) format("woff2");font-weight:600;font-style:italic;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url(fonts/ibm-plex-mono-latin-400-normal.woff2) format("woff2");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"IBM Plex Mono";src:url(fonts/ibm-plex-mono-latin-500-normal.woff2) format("woff2");font-weight:500;font-style:normal;font-display:swap}
+
+:root{
+  --paper:#ebe8e1; --field:#e2ded5; --input:#f3f1ec; --ink:#1b1b1c; --ink-2:#4b4945; --ink-3:#7a766e;
+  --line:#cdc8bd; --brass:#8c7040; --brass-2:#b9a67e;
+  --f-display:"Libre Caslon Display","Iowan Old Style","Palatino Linotype",Georgia,serif;
+  --f-body:"Source Sans 3","Helvetica Neue",Arial,sans-serif;
+  --f-mono:"IBM Plex Mono","SF Mono",Menlo,Consolas,monospace;
+  --plate:72rem;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#141414; --field:#1c1c1b; --input:#1c1c1b; --ink:#e6e2d8; --ink-2:#b7b2a7; --ink-3:#86817a;
+    --line:#2f2e2b; --brass:#c0a06c; --brass-2:#6f5d3e; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#141414; --field:#1c1c1b; --input:#1c1c1b; --ink:#e6e2d8; --ink-2:#b7b2a7; --ink-3:#86817a;
+  --line:#2f2e2b; --brass:#c0a06c; --brass-2:#6f5d3e; color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{overflow-x:clip}
+html{scroll-padding-top:4.5rem}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.0625rem/1.6 var(--f-body);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+a{color:inherit;text-decoration:underline;text-decoration-color:var(--brass-2);text-underline-offset:.18em}
+a:hover{text-decoration-color:var(--brass)}
+:focus-visible{outline:2px solid var(--brass);outline-offset:3px}
+.skip{position:absolute;left:-999px;top:0}
+.skip:focus{left:16px;top:12px;z-index:20;background:var(--paper);padding:.5rem .75rem}
+
+/* Bar: the name and the one action, always in reach. */
+.bar{position:sticky;top:0;z-index:10;background:var(--paper);border-bottom:1px solid var(--line)}
+.bar-in{max-width:var(--plate);margin-inline:auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:.85rem max(16px,env(safe-area-inset-right,0px)) .85rem max(16px,env(safe-area-inset-left,0px))}
+.wordmark{font:400 1.3rem/1 var(--f-display);text-decoration:none;letter-spacing:.01em}
+.bar-cta{font:500 .72rem/1 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--ink);padding:.55rem 0;border-bottom:1px solid var(--brass)}
+.bar-cta:hover{color:var(--brass)}
+
+/* Layout: one narrow measure; plates break out of it. */
+.page{max-width:42rem;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:1.5rem 4rem}
+.s{padding-block:clamp(3rem,7vw,5.5rem)}
+.s.pre{opacity:0;transform:translateY(8px)}
+.s.in{opacity:1;transform:none;transition:opacity .7s ease,transform .7s ease}
+@media (prefers-reduced-motion: reduce){.s.pre{opacity:1;transform:none}.s.in{transition:none}}
+.mark{display:block;width:2rem;height:1px;background:var(--brass);margin-bottom:1.25rem}
+.eyebrow{margin:0 0 1rem;font:500 .72rem/1.4 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--brass)}
+h1,h2,h3{font-family:var(--f-display);font-weight:400;text-wrap:balance;margin:0}
+h1{font-size:clamp(2.5rem,7.5vw,4.25rem);line-height:1.04;letter-spacing:-.005em}
+h2{font-size:clamp(1.75rem,4.2vw,2.375rem);line-height:1.12;margin-bottom:1.25rem}
+h3{font-size:1.4rem;line-height:1.25}
+p{margin:0 0 1.1rem;max-width:62ch}
+p:last-child{margin-bottom:0}
+.deck{font-size:clamp(1.15rem,2.4vw,1.375rem);line-height:1.45;color:var(--ink-2);margin-top:1.25rem;max-width:34ch}
+.lede{font-size:1.1875rem;line-height:1.55}
+.pull{font-family:var(--f-display);font-size:clamp(1.5rem,3.6vw,2.125rem);line-height:1.25;max-width:28ch;margin-bottom:1.5rem}
+.closing{font-family:var(--f-display);font-style:italic;font-size:clamp(1.375rem,3.2vw,1.875rem);line-height:1.3;color:var(--ink-2);margin:0 0 2.5rem;max-width:30ch}
+.quiet-link{display:inline-block;margin-top:2rem;font:500 .8rem/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;text-decoration:none;padding:.9rem 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.quiet-link:hover{color:var(--brass)}
+
+/* Plates: the renderings. A plate shows its brief until its image is in images/. */
+.plate{--w:var(--plate);width:min(var(--w),100vw);margin:2.5rem 0 0 calc(50% - min(var(--w),100vw) / 2)}
+.frame{position:relative;aspect-ratio:var(--ar,3/2);overflow:hidden;background:var(--field)}
+.frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s ease}
+.plate.has-img .frame img{opacity:1}
+.plate.has-img .plate-brief{display:none}
+.plate:not(.has-img) .frame{border:1px solid var(--line);display:grid;place-content:center;padding:1.25rem}
+.plate-brief{margin:0 auto;max-width:40ch;text-align:center;font:400 .8rem/1.5 var(--f-mono);color:var(--ink-3)}
+.plate figcaption{display:flex;gap:.9rem;padding-top:.65rem;font:500 .66rem/1.4 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+.plate figcaption b{font-weight:500;color:var(--brass)}
+@media (max-width:72rem){.plate figcaption{padding-inline:16px}}
+
+.spec{margin:1.5rem 0 0;border-top:1px solid var(--line);display:grid;grid-template-columns:8.5rem minmax(0,1fr)}
+.spec dt,.spec dd{margin:0;padding-block:.8rem;border-bottom:1px solid var(--line)}
+.spec dt{font:500 .72rem/1.9 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);padding-right:1rem}
+.spec dd{min-width:0}
+@media (max-width:30rem){.spec{grid-template-columns:1fr}.spec dt{border-bottom:0;padding-bottom:0}.spec dd{padding-top:.2rem}}
+
+.price-big{font:400 clamp(2.4rem,6vw,3.25rem)/1 var(--f-display);margin:.25rem 0 .75rem;font-variant-numeric:lining-nums}
+.price{font:500 .8rem/1.7 var(--f-mono);letter-spacing:.04em;color:var(--ink-2);margin:0 0 .5rem;max-width:none}
+.price span{white-space:nowrap}
+
+.modules{list-style:none;margin:1.5rem 0 0;padding:0;border-top:1px solid var(--line)}
+.modules li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.2rem 1.5rem;padding-block:1rem;border-bottom:1px solid var(--line);align-items:baseline}
+.m-name{font-weight:600}
+.m-coach{grid-column:1;color:var(--ink-2);font-size:.98rem;max-width:52ch}
+.m-price{grid-row:1;grid-column:2;font:500 .82rem/1.6 var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.m-price.inc{color:var(--brass);letter-spacing:.08em;text-transform:uppercase;font-size:.7rem}
+.sub{margin-top:3.5rem}
+
+.ritual{list-style:none;margin:1.5rem 0 0;padding:0;counter-reset:step}
+.ritual li{position:relative;padding:0 0 1.25rem 2.75rem;counter-increment:step;max-width:60ch}
+.ritual li::before{content:counter(step,decimal-leading-zero);position:absolute;left:0;top:.35em;font:500 .72rem/1 var(--f-mono);letter-spacing:.1em;color:var(--brass)}
+
+.note{font-family:var(--f-display);font-size:clamp(1.3rem,3vw,1.65rem);line-height:1.4;max-width:32ch}
+.sig{font:500 .72rem/1.6 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+
+.q{padding-block:1.4rem;border-top:1px solid var(--line)}
+.q:last-of-type{border-bottom:1px solid var(--line)}
+.q h3{font:italic 600 1.05rem/1.4 var(--f-body);color:var(--ink-2);margin-bottom:.4rem}
+.q p{max-width:60ch}
+
+form{margin-top:1.5rem;display:grid;gap:1.5rem}
+fieldset{border:0;margin:0;padding:0;min-width:0}
+legend,label.l{display:block;font:500 .72rem/1.6 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.5rem;padding:0}
+label.l span{text-transform:none;letter-spacing:0}
+.row{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr))}
+input[type=text],input[type=email],input[type=tel],textarea{width:100%;font:inherit;color:var(--ink);background:var(--input);border:1px solid var(--line);border-radius:0;padding:.75rem .85rem}
+input[type=text]:focus,input[type=email]:focus,input[type=tel]:focus,textarea:focus{border-color:var(--brass);outline:none}
+textarea{min-height:5rem;resize:vertical}
+.choices{display:flex;flex-wrap:wrap;gap:.6rem .9rem}
+.choices label{display:inline-flex;align-items:center;gap:.5rem;font-size:1rem;padding:.5rem .75rem;border:1px solid var(--line);background:var(--input);cursor:pointer}
+.choices input{accent-color:var(--brass);margin:0}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+button{font:500 .8rem/1 var(--f-mono);letter-spacing:.1em;text-transform:uppercase;color:var(--paper);background:var(--ink);border:1px solid var(--ink);padding:1rem 1.4rem;cursor:pointer;justify-self:start}
+button:hover{background:var(--brass);border-color:var(--brass)}
+button[disabled]{opacity:.6;cursor:default}
+.note-s{font-size:.92rem;color:var(--ink-3)}
+.status{border:1px solid var(--line);padding:1.5rem;margin-top:1.5rem}
+.status h3{margin-bottom:.5rem}
+
+footer{max-width:42rem;margin-inline:auto;border-top:1px solid var(--line);padding:2.5rem max(16px,env(safe-area-inset-right,0px)) 3rem max(16px,env(safe-area-inset-left,0px));color:var(--ink-3);font-size:.88rem;line-height:1.6}
+footer p{max-width:62ch}
+footer nav{display:flex;flex-wrap:wrap;gap:.5rem 1.25rem;font:500 .7rem/1.6 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;margin:1.25rem 0}
+</style>
+</head>
+<body>
+<a class="skip" href="#commission">Skip to the fitting request</a>
+
+<header class="bar">
+  <div class="bar-in">
+    <a class="wordmark" href="#top">Sextant</a>
+    <a class="bar-cta" href="#commission">Request a fitting</a>
+  </div>
+</header>
+
+<main class="page">
+
+<section class="s" id="top">
+  <p class="eyebrow">Sextant &middot; Commissioned &middot; Numbered &middot; First edition of ten</p>
+  <h1>Built for the day you can't look it up.</h1>
+  <p class="deck">No signal. No account. No one to call. It still answers.</p>
+  <figure class="plate" style="--ar:3/2">
+    <div class="frame">
+      <img data-plate="01" alt="The closed Sextant case in its waxed-canvas cover, No. 001 stenciled on top, on a stone floor in raking light" width="2400" height="1600" fetchpriority="high">
+      <p class="plate-brief" aria-hidden="true">Plate 01 &mdash; the closed case in its canvas cover on a stone floor, raking light from the left.</p>
+    </div>
+    <figcaption><b>Plate 01</b><span>Rendering</span></figcaption>
+  </figure>
+  <a class="quiet-link" href="#commission">Request a fitting</a>
+</section>
+
+<section class="s" id="idea">
+  <span class="mark"></span>
+  <p class="eyebrow">The idea</p>
+  <p class="lede">It is the one thing in the house that becomes more valuable the moment everything else stops working. Every piece inside it is there because the mind inside it can walk you through using it. It is built one at a time, numbered, and meant to be handed down.</p>
+  <p>It reads from a library, shows you the page, and tells you when it doesn't know. It needs sunlight, and nothing else.</p>
+</section>
+
+<section class="s" id="object">
+  <span class="mark"></span>
+  <p class="eyebrow">The object &middot; Sextant, first edition</p>
+  <h2>What is in the case</h2>
+  <p class="price-big">$13,500</p>
+  <p class="price"><span>First edition, No. 001&ndash;010</span> &middot; <span>From No. 011, $15,000</span> &middot; <span>Plus tax where applicable</span></p>
+  <dl class="spec">
+    <dt>Terminal</dt><dd>A 14-inch Apple Silicon laptop, 1&nbsp;TB, configured as an offline instrument. It wakes to a single prompt.</dd>
+    <dt>Library</dt><dd>4&nbsp;TB: two language models, one small for battery and one larger for reasoning, and a curated library of openly licensed and public-domain references &mdash; medical, repair, agricultural, navigational &mdash; with offline maps of your region.</dd>
+    <dt>Cold copy</dt><dd>The archive on archival optical media, in a sleeve, for the day the drive doesn't spin.</dd>
+    <dt>Power</dt><dd>A LiFePO4 power station and a 200&nbsp;W folding solar panel. Direct DC to USB-C, cable pre-run. The station travels separately and is seated at the handover.</dd>
+    <dt>Housing</dt><dd>A Pelican case, foam cut to this configuration and lined in wool felt, with a Faraday fabric liner lab-certified to MIL-STD-188-125-2.</dd>
+    <dt>Comms</dt><dd>Two LoRa mesh radios, pre-paired and labeled A and B. Text the terminal from the far end of the property, with no tower.</dd>
+    <dt>Trays</dt><dd>Medical, water, and maps, each in its own tray. Below.</dd>
+    <dt>Paper</dt><dd>A bound logbook. A twelve-page field card. The numbered brass plate inside the lid.</dd>
+    <dt>Weight</dt><dd>About 40&nbsp;lb, cased. Transportable, not pocketable.</dd>
+    <dt>Service</dt><dd>A thirty-minute handover. In Southern California, in person.</dd>
+  </dl>
+  <p style="margin-top:1.5rem"><strong>What isn't in it.</strong> No subscription, no account, no satellite link, no medicine, no second tier. Nothing in it renews, phones home, or needs a signal. The only dates in the case are on the medical supplies, and the annual refresh replaces them.</p>
+  <figure class="plate" style="--ar:3/2">
+    <div class="frame">
+      <img data-plate="02" alt="The open Sextant case from directly above: the brass plate inside the lid, the terminal in a wool sleeve, the power well, the radios, and the cold copy" width="2400" height="1600" loading="lazy">
+      <p class="plate-brief" aria-hidden="true">Plate 02 &mdash; the open case from directly above, every well filled.</p>
+    </div>
+    <figcaption><b>Plate 02</b><span>Rendering</span></figcaption>
+  </figure>
+</section>
+
+<section class="s" id="trays">
+  <span class="mark"></span>
+  <p class="eyebrow">The trays &middot; Proof, not accessories</p>
+  <h2>Everything in the case knows how to be used</h2>
+  <p>Three trays come in every Sextant. Each has a one-page card: what the Sextant knows about it, and the first thing to ask.</p>
+  <ul class="modules">
+    <li><span class="m-name">Medical</span><span class="m-price inc">Included</span><span class="m-coach">Tourniquet, hemostatic gauze, and a wound-closure kit. Bleeding control and wound care, read from the reference library with the page cited.</span></li>
+    <li><span class="m-name">Water</span><span class="m-price inc">Included</span><span class="m-coach">A titanium purifier with a spare cartridge. Source selection, treatment order, and what the purifier does and doesn't remove, per its manufacturer.</span></li>
+    <li><span class="m-name">Maps</span><span class="m-price inc">Included</span><span class="m-coach">Your own land on three waterproof prints, and a tritium compass. Bearings, pacing, a route out.</span></li>
+  </ul>
+  <figure class="plate" style="--ar:3/2">
+    <div class="frame">
+      <img data-plate="03" alt="The three trays side by side from above: medical, water, and maps, each with its card" width="2400" height="1600" loading="lazy">
+      <p class="plate-brief" aria-hidden="true">Plate 03 &mdash; the medical, water and map trays side by side, from above.</p>
+    </div>
+    <figcaption><b>Plate 03</b><span>Rendering</span></figcaption>
+  </figure>
+
+  <h3 class="sub">Optional additions</h3>
+  <ul class="modules">
+    <li><span class="m-name">Blade and multitool</span><span class="m-price">$1,100</span><span class="m-coach">Field repair, shelter, processing, sharpening and care.</span></li>
+    <li><span class="m-name">Aerial survey, Tier I</span><span class="m-price">$1,350</span><span class="m-coach">Pre-flight, registration, survey patterns, reading the footage against the map. Under 250&nbsp;g.</span></li>
+    <li><span class="m-name">Aerial survey, Tier II</span><span class="m-price">$7,500</span><span class="m-coach">As above, with thermal imaging. Requires FAA registration and Remote ID.</span></li>
+    <li><span class="m-name">Cache capsule</span><span class="m-price">$650</span><span class="m-coach">Siting, sealing, marking, retrieval.</span></li>
+    <li><span class="m-name">Private emplacement</span><span class="m-price">$3,500 + travel</span><span class="m-coach">We place it on your land, with you, and log it in the book.</span></li>
+    <li><span class="m-name">Annual refresh</span><span class="m-price">$450 a year</span><span class="m-coach">A new archive drive and fresh medical supplies. Offered every year, never required.</span></li>
+  </ul>
+  <figure class="plate" style="--ar:3/2">
+    <div class="frame">
+      <img data-plate="07" alt="The cache capsule on freshly turned earth, a brass marker spike beside it, in late light" width="2400" height="1600" loading="lazy">
+      <p class="plate-brief" aria-hidden="true">Plate 07 &mdash; the cache capsule on turned earth, the brass marker spike beside it, late light.</p>
+    </div>
+    <figcaption><b>Plate 07</b><span>Rendering</span></figcaption>
+  </figure>
+</section>
+
+<section class="s" id="ritual">
+  <span class="mark"></span>
+  <p class="eyebrow">The ritual &middot; How it arrives</p>
+  <h2>The first thing you type is the last thing we designed</h2>
+  <ol class="ritual">
+    <li>A waxed-canvas cover with the number stenciled on it. Nothing else. Delivered by hand &mdash; in Southern California, by the maker.</li>
+    <li>Under the lid, the logbook, and a sealed envelope: <em>open this before anything else.</em></li>
+    <li>One sentence inside. It is the first thing to type.</li>
+    <li>The terminal wakes to a black screen and a single line. You type the sentence. It answers with what it is, what it holds, and one question: <em>where will you keep me?</em> Your answer is the first line of the logbook.</li>
+    <li>The power station, which travels on its own, is seated in its well. Then the radios, the cold copy, the field card, and the three trays, each in its place.</li>
+    <li>Under everything, a handwritten note from the maker. The only signed object in the case.</li>
+  </ol>
+  <figure class="plate" style="--ar:16/9">
+    <div class="frame">
+      <img data-plate="04" alt="Over the shoulder in a dark room: a black screen with one line of text, Where will you keep me?, and a cursor" width="2400" height="1350" loading="lazy">
+      <p class="plate-brief" aria-hidden="true">Plate 04 &mdash; the black screen, one line, a cursor. The room dark.</p>
+    </div>
+    <figcaption><b>Plate 04</b><span>Rendering</span></figcaption>
+  </figure>
+</section>
+
+<section class="s" id="giver">
+  <span class="mark"></span>
+  <p class="eyebrow">For the giver</p>
+  <p class="pull">You can't give someone certainty. You can give them the thing that comes closest: something that knows what to do, holds what they'll do it with, and has their number on it.</p>
+  <p>A commission placed now arrives in January or February. Within two days of your deposit, a letterpress Commission Letter goes out to you, numbered and dated by hand: <em>A Sextant is being built for you. It is number&nbsp;___. It arrives&nbsp;___.</em> That is what goes under the tree.</p>
+  <p>For the letter to be in your hands by December 24, commission by December 16.</p>
+  <p>In Southern California, the maker delivers it and stays for the first boot. We will tell you the sentence on the card, so you can be in the room when it's typed.</p>
+  <figure class="plate" style="--ar:4/5;--w:36rem">
+    <div class="frame">
+      <img data-plate="05" alt="The letterpress Commission Letter on a wooden table, its envelope open beside it, in window light" width="1600" height="2000" loading="lazy">
+      <p class="plate-brief" aria-hidden="true">Plate 05 &mdash; the Commission Letter on a wooden table, envelope open beside it, window light.</p>
+    </div>
+    <figcaption><b>Plate 05</b><span>Rendering</span></figcaption>
+  </figure>
+</section>
+
+<section class="s" id="maker">
+  <span class="mark"></span>
+  <p class="eyebrow">From the maker</p>
+  <p class="note">I build AI systems for businesses, and nearly everything I build assumes the network will be there. Sextant is the one that doesn't. It reads from a library it carries, shows you the page, and says so when the page isn't there, because the moment you need it is the moment you can't check its work.</p>
+  <p>Each one is numbered, recorded in a ledger, and finished with a note in my hand.</p>
+  <p class="sig">Benjermin &middot; Oceanside, California</p>
+  <figure class="plate" style="--ar:3/2">
+    <div class="frame">
+      <img data-plate="06" alt="A handwritten note with a fountain pen resting across it, the brass plate out of focus behind" width="2400" height="1600" loading="lazy">
+      <p class="plate-brief" aria-hidden="true">Plate 06 &mdash; the handwritten note, the pen across it, the brass plate out of focus behind.</p>
+    </div>
+    <figcaption><b>Plate 06</b><span>Rendering</span></figcaption>
+  </figure>
+</section>
+
+<section class="s" id="provenance">
+  <span class="mark"></span>
+  <p class="eyebrow">Provenance &middot; How a commission works</p>
+  <h2>Fewer than fifty a year</h2>
+  <dl class="spec">
+    <dt>Edition</dt><dd>Each unit is numbered on a brass plate inside the lid and recorded in a ledger we keep. The first edition is No.&nbsp;001 to No.&nbsp;010.</dd>
+    <dt>The fitting</dt><dd>A twenty-minute conversation, by video or, in Southern California, in person. We walk the spec sheet and confirm the map region, the engraving line, and any additions.</dd>
+    <dt>Deposit</dt><dd>Half, by card, wire or ACH, reserves your number. Fully refundable for 72 hours. After that, components are ordered.</dd>
+    <dt>Build</dt><dd>Four to six weeks. Your unit is photographed for its own logbook. If you have a date, tell us in the form.</dd>
+    <dt>Balance</dt><dd>Before shipment, by card, wire or ACH.</dd>
+    <dt>Delivery</dt><dd>Within the United States. In Southern California, by hand, by the maker. Elsewhere, insured ground. The power station travels separately, from its maker.</dd>
+    <dt>Handover</dt><dd>Thirty minutes, in person or by video, within a week of delivery. You write the first entry.</dd>
+    <dt>Warranty</dt><dd>Two years on our work: the build, the archive, the felt and foam, the plate. Each component keeps its own maker's warranty.</dd>
+    <dt>Made by</dt><dd>Benjermin, in Oceanside, California.</dd>
+    <dt>Terms</dt><dd><a href="terms.html">Terms of commission</a>, including warranty, delivery and returns.</dd>
+  </dl>
+</section>
+
+<section class="s" id="ask">
+  <span class="mark"></span>
+  <p class="eyebrow">Before you ask</p>
+  <div class="q"><h3>It's a laptop in a box.</h3><p>The laptop is under a fifth of it. The rest is four to six weeks of building one properly, a library it reads from, power that runs on sunlight, the tools it teaches you to use, and the fact that there aren't many of them.</p></div>
+  <div class="q"><h3>You've used AI. It makes things up.</h3><p>It can. That's why it doesn't answer from memory. It reads from the library in the case and shows you the page. When it can't find one, it says so, and the page is still there to read yourself.</p></div>
+  <div class="q"><h3>I have Starlink and a generator.</h3><p>Then you have the two things that stop first. One needs a constellation and a billing account; the other needs fuel. This needs sunlight.</p></div>
+  <div class="q"><h3>Who are you, and why should I believe you built it right?</h3><p>Sextant is made by Benjermin, who builds AI systems for businesses, in Oceanside, California. Fewer than fifty a year, each numbered, photographed, and recorded in a ledger we keep. His name is on the note in the case.</p></div>
+  <div class="q"><h3>Can I see one first?</h3><p>In Southern California, yes: the fitting can be in person. Anywhere else, it's a video call, and your deposit stays fully refundable for 72 hours.</p></div>
+  <div class="q"><h3>In eighteen months it's obsolete.</h3><p>The model will be. The library won't: bleeding control, engine repair, and the map of your valley don't update on a product cycle. A refreshed archive is offered every year. It is never required.</p></div>
+  <div class="q"><h3>This is for people who think the world is ending.</h3><p>It's for people who've had a pipe burst on a closed road at two in the morning. Cosplay is gear you'll never use. This is the book your grandfather kept on the shelf, with hands to help you use it.</p></div>
+  <div class="q"><h3>Thirteen thousand five hundred dollars.</h3><p>Yes. It's built one at a time, it holds everything it knows how to use, and it's meant to outlast you.</p></div>
+</section>
+
+<section class="s" id="commission">
+  <span class="mark"></span>
+  <p class="eyebrow">Commission request</p>
+  <p class="closing">When the cloud goes dark, your intelligence doesn't.</p>
+  <h2>Request a fitting</h2>
+  <p>Your name, an email, and two questions. We reply within a day, from a person.</p>
+
+  <form name="fitting" id="fitting-form" method="POST" data-netlify="true" netlify-honeypot="bot-field" novalidate>
+    <input type="hidden" name="form-name" value="fitting">
+    <input type="hidden" name="subject" value="Sextant: fitting request">
+    <input type="hidden" name="where-list" value="">
+    <p class="hp" aria-hidden="true"><label>Leave this empty <input name="bot-field" tabindex="-1" autocomplete="off"></label></p>
+    <div class="row">
+      <div><label class="l" for="f-name">Name</label><input type="text" id="f-name" name="name" autocomplete="name" required></div>
+      <div><label class="l" for="f-email">Email</label><input type="email" id="f-email" name="email" autocomplete="email" required></div>
+    </div>
+    <div><label class="l" for="f-phone">Phone <span>(optional, if you'd rather talk)</span></label><input type="tel" id="f-phone" name="phone" autocomplete="tel"></div>
+    <fieldset>
+      <legend>Who is it for</legend>
+      <div class="choices">
+        <label><input type="radio" name="for" value="myself" checked> Myself</label>
+        <label><input type="radio" name="for" value="a gift"> A gift</label>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Where it will live</legend>
+      <div class="choices">
+        <label><input type="checkbox" name="where" value="house"> A house</label>
+        <label><input type="checkbox" name="where" value="ranch or land"> A ranch or land</label>
+        <label><input type="checkbox" name="where" value="boat"> A boat</label>
+        <label><input type="checkbox" name="where" value="vehicle"> A vehicle</label>
+      </div>
+    </fieldset>
+    <div>
+      <label class="l" for="f-note">Anything else <span>(one line is fine; a date, if there is one)</span></label>
+      <textarea id="f-note" name="note"></textarea>
+    </div>
+    <button type="submit" id="f-submit">Request a fitting</button>
+    <p class="note-s" id="f-error" hidden>Add your name and an email address we can reply to.</p>
+  </form>
+
+  <div class="status" id="f-ok" hidden>
+    <h3>Received.</h3>
+    <p>We reply within a day, from a person. If you'd rather write directly: <a href="mailto:commissions@madebysextant.com">commissions@madebysextant.com</a></p>
+  </div>
+  <div class="status" id="f-fail" hidden>
+    <h3>That didn't send.</h3>
+    <p id="f-fail-text">Please write to <a id="f-mailto" href="mailto:commissions@madebysextant.com">commissions@madebysextant.com</a> and we'll reply within a day.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>Sextant is a commissioned object. It is not a medical device and does not give medical advice; its medical references are provided for reading, with their sources shown. Answers cite their source in the onboard library and can be wrong. The case liner is a Faraday fabric certified by its manufacturer to MIL-STD-188-125-2; the assembled case has not been independently tested. Water purification performance is as stated by the purifier's manufacturer. Aerial survey additions require FAA registration and, over 250&nbsp;g, Remote ID; both are the owner's responsibility. Delivered within the United States; the owner is responsible for any export compliance. The images on this page are renderings of the first edition.</p>
+  <nav aria-label="Legal"><a href="terms.html">Terms of commission</a><a href="privacy.html">Privacy</a><a href="mailto:commissions@madebysextant.com">commissions@madebysextant.com</a></nav>
+  <p>This page sets no cookies, runs no analytics, and loads nothing from anyone else.</p>
+  <p>&copy; 2026 Sextant Studio &middot; Oceanside, California</p>
+</footer>
+
+<script>
+(function(){
+  // Plates: each looks for images/plate-NN.webp, then .jpg, then .png. Missing files leave the brief showing.
+  var exts = ['webp','jpg','png'];
+  Array.prototype.forEach.call(document.querySelectorAll('img[data-plate]'), function(img){
+    var fig = img.closest('.plate'), i = 0;
+    function next(){
+      if (i >= exts.length) { img.removeAttribute('src'); return; }
+      img.src = 'images/plate-' + img.getAttribute('data-plate') + '.' + exts[i++];
+    }
+    img.addEventListener('load', function(){ fig.classList.add('has-img'); });
+    img.addEventListener('error', next);
+    next();
+  });
+
+  // The fitting request posts to Netlify Forms. Anywhere else it falls back to email.
+  var form = document.getElementById('fitting-form');
+  var err = document.getElementById('f-error'), ok = document.getElementById('f-ok'), fail = document.getElementById('f-fail');
+  var btn = document.getElementById('f-submit');
+  var ADDRESS = 'commissions@madebysextant.com';
+
+  function show(el){
+    form.hidden = true; el.hidden = false;
+    el.scrollIntoView({ block: 'start', behavior: 'smooth' });
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    var name = form.elements['name'].value.trim(), email = form.elements['email'].value.trim();
+    if (!name || email.indexOf('@') < 1) { err.hidden = false; return; }
+    err.hidden = true;
+    var fd = new FormData(form);
+    fd.set('where-list', fd.getAll('where').join(', '));
+    var lines = ['Name: ' + name, 'Email: ' + email, 'Phone: ' + (fd.get('phone') || ''), 'For: ' + fd.get('for'), 'Where: ' + fd.get('where-list'), '', (fd.get('note') || '')];
+    document.getElementById('f-mailto').href = 'mailto:' + ADDRESS + '?subject=' + encodeURIComponent('Sextant: fitting request') + '&body=' + encodeURIComponent(lines.join('\n'));
+    if (location.protocol === 'file:') {
+      document.getElementById('f-fail-text').innerHTML = 'Preview mode: the form sends once the site is live on Netlify. Until then, <a href="' + document.getElementById('f-mailto').href + '">send it by email</a>.';
+      show(fail); return;
+    }
+    btn.disabled = true;
+    fetch('/', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams(fd).toString() })
+      .then(function(r){ show(r.ok ? ok : fail); })
+      .catch(function(){ show(fail); })
+      .then(function(){ btn.disabled = false; });
+  });
+
+  // Gentle fade, below the fold only.
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches && 'IntersectionObserver' in window) {
+    var vh = window.innerHeight || 800;
+    var pending = Array.prototype.filter.call(document.querySelectorAll('.s'), function(el){ return el.getBoundingClientRect().top > vh; });
+    pending.forEach(function(el){ el.classList.add('pre'); });
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting) { en.target.classList.remove('pre'); en.target.classList.add('in'); io.unobserve(en.target); }
+      });
+    }, { rootMargin: '0px 0px -6% 0px' });
+    pending.forEach(function(el){ io.observe(el); });
+  }
+})();
+</script>
+</body>
+</html>
